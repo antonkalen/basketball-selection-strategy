@@ -12,7 +12,7 @@ tar_option_set(packages = c("here", "readr", "fs", "dplyr", "tidyr"))
 
 # Source all functions in the R folder ------------------------------------
 
-# dir_walk(here::here("R"), source)
+dir_walk(here::here("R"), source)
 
 
 # Set parameters for the analysis -----------------------------------------
@@ -21,7 +21,7 @@ params <- list(
   debut_age_cut = 25,
   senior_max_rank = 1000,
   youth_max_rank = 800,
-  min_nr_championship = 3
+  min_nr_champs = 3
 )
 
 
@@ -41,8 +41,8 @@ pipeline <- list(
   tar_file(last_senior_champ_file, here("data-raw", "last_senior_champ.csv")),
   tar_target(raw_last_senior_champ, read_csv(last_senior_champ_file)),
   ## Country youth participation
-  tar_file(country_participation_file, here("data-raw", "country_participations.csv")),
-  tar_target(country_participation, read_csv(country_participation_file)),
+  tar_file(country_participations_file, here("data-raw", "country_participations.csv")),
+  tar_target(country_participations, read_csv(country_participations_file)),
   ## Latent classes
   tar_files(classes_files, dir_ls(here("data-raw"), regexp = "4classes")),
   tar_target(
@@ -54,6 +54,21 @@ pipeline <- list(
       col_types = "nnnnnnnn"
     ),
     pattern = map(classes_files)
+  ),
+  # Clean data
+  ## Player data
+  tar_target(
+    player_data,
+    clean_player_data(
+      raw_player_data = raw_players,
+       country_rankings = ranking,
+       country_partic = country_participations,
+       latent_classes = classes,
+       min_nr_champs = params$min_nr_champs,
+       senior_max_rank = params$senior_max_rank,
+       youth_max_rank = params$youth_max_rank,
+       debut_age_cut = params$debut_age_cut
+    )
   )
 )
 
