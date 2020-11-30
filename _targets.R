@@ -38,7 +38,7 @@ pipeline <- list(
   tar_files(ranking_files, dir_ls(here("data-raw"), regexp = "ranking")),
   tar_target(ranking, read_csv(ranking_files), pattern = map(ranking_files)),
   ## Last championships
-  tar_file(last_senior_champ_file, here("data-raw", "last_senior_champ.csv")),
+  tar_file(last_senior_champ_file, here("data-raw", "players_last_senior_championships.csv")),
   tar_target(raw_last_senior_champ, read_csv(last_senior_champ_file)),
   ## Country youth participation
   tar_file(country_participations_file, here("data-raw", "country_participations.csv")),
@@ -69,7 +69,8 @@ pipeline <- list(
        youth_max_rank = params$youth_max_rank,
        debut_age_cut = params$debut_age_cut
     )
-  )
+  ),
+  tar_target(country_data, make_country_data(player_data = player_data))
 )
 
 
