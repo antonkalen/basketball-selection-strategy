@@ -29,5 +29,8 @@ make_country_data <- function(player_data = player_data) {
       .groups = "drop",
     )
   
+  country_data <- country_data %>% 
+    mutate(ranking_points_ratio = na_if(ranking_points_ratio, Inf))
+  
   country_data
 }
