@@ -153,7 +153,10 @@ add_latent_classes <- function(player_data, latent_classes) {
   
   # Rename classes
   latent_classes <- latent_classes %>% 
-    mutate(class = paste("Class", class))
+    mutate(
+      class = paste("Class", class),
+      class = as.factor(class)
+    )
   
   # Join with player data
   player_data %>% 
