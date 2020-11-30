@@ -21,7 +21,8 @@ params <- list(
   debut_age_cut = 25,
   senior_max_rank = 1000,
   youth_max_rank = 800,
-  min_nr_champs = 3
+  min_nr_champs = 3,
+  min_generations = 5
 )
 
 
