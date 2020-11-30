@@ -15,22 +15,20 @@ tar_option_set(packages = c("here", "readr", "fs", "dplyr", "tidyr"))
 dir_walk(here::here("R"), source)
 
 
-# Set parameters for the analysis -----------------------------------------
-
-params <- list(
-  debut_age_cut = 25,
-  senior_max_rank = 1000,
-  youth_max_rank = 800,
-  min_nr_champs = 3,
-  min_generations = 5
-)
-
-
 # Define targets pipeline -------------------------------------------------
 
 pipeline <- list(
   # Load parameters
-  tar_target(params, params),
+  tar_target(
+    params,
+    list(
+      debut_age_cut = 25,
+      senior_max_rank = 1000,
+      youth_max_rank = 800,
+      min_nr_champs = 3,
+      min_generations = 5
+    )
+  ),
   # Load raw data files
   ## Players
   tar_file(players_file, here("data-raw", "players.csv")),
