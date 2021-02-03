@@ -1,0 +1,110 @@
+gender,country,licenced_players_senior,licenced_players_u18,licenced_players_tot,year
+Men,Albania,138,238,376,2012
+Men,Andorra,99,346,445,2010
+Men,Armenia,NA,NA,NA,NA
+Men,Austria,11900,2020,13920,2012
+Men,Azerbaijan,380,1678,2050,2010
+Men,Belarus,210,4720,4930,2010
+Men,Belgium,28109,33700,61809,2014
+Men,Bosnia and Herzegovina,2725,1309,4034,2010
+Men,Bulgaria,322,900,1222,2010
+Men,Croatia,2820,9960,12780,2010
+Men,Cyprus,1671,233,1904,2014
+Men,Czech Republic,7171,20836,28007,2012
+Men,Denmark,7653,4243,11896,2014
+Men,Estonia,1159,1476,2635,2010
+Men,Finland,220,320,540,2014
+Men,France,363456,183176,546632,2014
+Men,Georgia,NA,NA,NA,NA
+Men,Germany,138538,64901,203439,2012
+Men,Gibraltar,120,208,328,2010
+Men,Great Britain,11502,9948,21450,2014
+Men,Greece,135726,53610,189336,2010
+Men,Hungary,15176,11184,26360,2012
+Men,Iceland,2149,2617,4766,2012
+Men,Ireland,3834,7858,11692,2014
+Men,Israel,3203,19156,22359,2014
+Men,Italy,47617,62245,109862,2014
+Men,Kosovo,NA,NA,NA,NA
+Men,Latvia,685,3490,4175,2012
+Men,Lithuania,1542,6854,8396,2012
+Men,Luxembourg,1146,1384,2530,2012
+Men,Malta,232,430,662,2010
+Men,Moldova,309,324,633,2014
+Men,Montenegro,238,2030,2268,2010
+Men,Netherlands,13145,16203,29348,2014
+Men,North Macedonia,375,1864,2239,2014
+Men,Norway,2587,4608,7195,2014
+Men,Poland,5597,11189,16786,2010
+Men,Portugal,1800,1403,3203,2012
+Men,Romania,1334,10276,11610,2014
+Men,Russia,5802,1653,7455,2012
+Men,San Marino,36,17,53,2010
+Men,Serbia,6976,9790,16766,2014
+Men,Slovakia,683,1665,2348,2014
+Men,Slovenia,1202,914,2116,2014
+Men,Spain,83082,193191,276273,2012
+Men,Sweden,3300,8400,11700,2012
+Men,Switzerland,3120,6240,9360,2014
+Men,Turkey,42813,NA,42813,2014
+Men,Ukraine,1061,2075,3136,2014
+Women,Albania,84,129,213,2012
+Women,Andorra,12,74,86,2010
+Women,Armenia,NA,NA,NA,NA
+Women,Austria,2480,820,3300,2012
+Women,Azerbaijan,86,382,468,2010
+Women,Belarus,152,2210,2362,2010
+Women,Belgium,10923,10709,21632,2014
+Women,Bosnia and Herzegovina,446,348,794,2010
+Women,Bulgaria,188,550,738,2010
+Women,Croatia,1750,5460,7210,2010
+Women,Cyprus,679,112,,2014
+Women,Czech Republic,6694,10762,17456,2012
+Women,Denmark,3153,1954,5107,2014
+Women,Estonia,201,532,733,2010
+Women,Finland,680,220,900,2014
+Women,France,213458,119097,332555,2014
+Women,Georgia,NA,NA,NA,NA
+Women,Germany,52618,27368,79986,2012
+Women,Gibraltar,52,147,199,2010
+Women,Great Britain,4767,4724,9491,2014
+Women,Greece,32259,9720,41979,2010
+Women,Hungary,4810,5650,10460,2012
+Women,Iceland,805,1447,2252,2012
+Women,Ireland,1559,3777,5336,2014
+Women,Israel,1247,3044,4291,2014
+Women,Italy,19361,29918,49279,2014
+Women,Kosovo,NA,NA,NA,NA
+Women,Latvia,115,1485,1600,2012
+Women,Lithuania,686,1651,2337,2012
+Women,Luxembourg,493,901,1394,2012
+Women,Malta,274,287,561,2010
+Women,Moldova,126,156,282,2014
+Women,Montenegro,30,360,390,2010
+Women,Netherlands,5345,7788,13133,2014
+Women,North Macedonia,101,280,381,2014
+Women,Norway,945,1757,2702,2014
+Women,Poland,1980,7193,9173,2010
+Women,Portugal,583,1087,1670,2012
+Women,Romania,721,6854,7575,2014
+Women,Russia,3250,735,3985,2012
+Women,San Marino,0,0,0,2010
+Women,Serbia,1064,1178,2242,2014
+Women,Slovakia,381,1897,2278,2014
+Women,Slovenia,239,186,425,2014
+Women,Spain,4239,90459,94698,2012
+Women,Sweden,1600,8900,10500,2012
+Women,Switzerland,1160,2265,3425,2014
+Women,Turkey,9525,NA,9525,2014
+Women,Ukraine,320,702,1022,2014
+,,,,,
+,,,,,
+,,0.710928593,0.675378207,0.694977569,
+,,,,,
+,,,,,
+Men,England,10124,9685,,
+,,1378,263,,
+,,,,,
+,,,,,
+Women,England,4116,4655,,
+,,651,69,,
