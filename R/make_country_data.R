@@ -1,36 +1,43 @@
-make_country_data <- function(player_data = player_data) {
-  # make dummy variables of classes
-  player_data <- player_data %>% 
-    mutate(dummy = 1) %>% 
-    pivot_wider(
-      names_from = class,
-      values_from = dummy,
-      values_fill = 0,
-      names_sort = TRUE
-    ) %>% 
-    janitor::clean_names()
+make_country_data <- function(generation_data) {
   
-  # Make summary for each gender, country, birth year combination
-  country_data <- player_data %>%
-    group_by(gender, country, birth_year) %>%
-    summarise(
-      senior_ranking = unique(senior_ranking),
-      senior_ranking_points = unique(senior_ranking_points),
-      youth_ranking = unique(youth_ranking),
-      youth_ranking_points = unique(youth_ranking_points),
-      ranking_points_ratio = senior_ranking_points / youth_ranking_points,
-      nr_youth_total = sum(youth),
-      nr_youth_only = sum(youth & !senior),
-      nr_youth_senior = sum(youth & senior),
-      nr_senior_only = sum(!youth & senior),
-      nr_senior_total = sum(senior),
-      prop_youth_senior = nr_youth_senior / nr_youth_total,
-      across(starts_with("class"), sum),
-      .groups = "drop",
+  # Summarise data
+  country_data <- generation_data %>% 
+    dplyr::group_by(gender, country) %>% 
+    dplyr::summarise(
+      dplyr::across(ranking_senior:players_lic_log_std, unique),
+      nr_generations = dplyr::n(),
+      nr_youth_m = mean(nr_youth),
+      nr_youth_cv = 100 * sd(nr_youth) / nr_youth_m,
+      .groups = "drop"
     )
   
-  country_data <- country_data %>% 
-    mutate(ranking_points_ratio = na_if(ranking_points_ratio, Inf))
+  # Summarise youth to senior data
+  youth_senior_data <- generation_data %>% 
+    tidyr::drop_na(nr_senior) %>% 
+    dplyr::group_by(gender, country) %>% 
+    dplyr::summarise(
+      nr_youth_m_to_senior = mean(nr_youth),
+      nr_youth_cv_to_senior = 100 * sd(nr_youth) / nr_youth_m_to_senior,
+      nr_senior_m = mean(nr_senior)
+    )
   
-  country_data
+  coutry_data_joined <- country_data %>% 
+    dplyr::left_join(youth_senior_data, by = c("gender", "country"))
+  
+  # Standardise mean and cv
+  country_data_std <- coutry_data_joined %>% 
+    dplyr::mutate(
+      dplyr::across(
+        c(nr_youth_m, nr_youth_cv, nr_youth_m_to_senior, nr_youth_cv_to_senior, nr_senior_m), 
+        scale,
+        .names = "{.col}_std"
+      ),
+    )
+  
+  # Add back scaled attributes
+  attr(country_data_std$players_lic_log_std, "scaled:center") <- attr(generation_data$players_lic_log_std, "scaled:center")
+  attr(country_data_std$players_lic_log_std, "scaled:scale") <- attr(generation_data$players_lic_log_std, "scaled:scale")
+  
+  # Return transformed data
+  country_data_std
 }
