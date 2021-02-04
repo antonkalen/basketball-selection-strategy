@@ -5,14 +5,6 @@ create_outputs <- list(
   tar_target(
     name = figure_1,
     command = create_figure_1(
-      senior_players = senior_players,
-      theme = plot_theme
-    )
-  ),
-  
-  tar_target(
-    name = figure_2,
-    command = create_figure_2(
       generation_data = generation_data,
       model_posteriors = nr_youth_pred_draws,
       width = .95,
@@ -20,16 +12,16 @@ create_outputs <- list(
     )
   ),
   tar_target(
-    name = figure_3,
-    command = create_figure_3(
+    name = figure_2,
+    command = create_figure_2(
       country_data = country_data,
       model = nr_youth_lic_players_mod,
       theme = plot_theme
     )
   ),
   tar_target(
-    name = figure_4,
-    command = create_figure_4(
+    name = figure_3,
+    command = create_figure_3(
       country_data = country_data,
       model_posteriors = nr_youth_ranking_pred_draws,
       model_moderated_posteriors = nr_youth_ranking_lic_players_draws,
@@ -37,8 +29,8 @@ create_outputs <- list(
     )
   ),
   tar_target(
-    name = figure_5,
-    command = create_figure_5(
+    name = figure_4,
+    command = create_figure_4(
       country_data = country_data,
       model = nr_youth_senior_country_mod,
       model_moderated = nr_youth_senior_lic_players_country_mod,
@@ -46,11 +38,19 @@ create_outputs <- list(
     )
   ),
   tar_target(
-    name = figure_6,
-    command = create_figure_6(
+    name = figure_5,
+    command = create_figure_5(
       generation_data = generation_data,
       model = nr_youth_senior_generation_mod,
       model_moderated = nr_youth_senior_lic_players_generation_mod,
+      theme = plot_theme
+    )
+  ),
+  
+  tar_target(
+    name = figure_6,
+    command = create_figure_6(
+      senior_players = senior_players,
       theme = plot_theme
     )
   ),
@@ -70,7 +70,7 @@ create_outputs <- list(
         device = device,
         scale = 1,
         width = 180,
-        height = 90
+        height = 140
       ),
       format = "file"
     ),
@@ -84,7 +84,7 @@ create_outputs <- list(
         device = device,
         scale = 1,
         width = 180,
-        height = 140
+        height = 90
       ),
       format = "file"
     ),
@@ -98,11 +98,10 @@ create_outputs <- list(
         device = device,
         scale = 1,
         width = 180,
-        height = 90
+        height = 180
       ),
       format = "file"
     ),
-    
     tar_target(
       name = figure_4_write,
       command = save_figure(
@@ -112,10 +111,11 @@ create_outputs <- list(
         device = device,
         scale = 1,
         width = 180,
-        height = 180
+        height = 90
       ),
       format = "file"
     ),
+    
     tar_target(
       name = figure_5_write,
       command = save_figure(
@@ -129,6 +129,7 @@ create_outputs <- list(
       ),
       format = "file"
     ),
+    
     
     tar_target(
       name = figure_6_write,
