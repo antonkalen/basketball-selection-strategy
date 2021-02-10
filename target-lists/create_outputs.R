@@ -9,7 +9,8 @@ create_outputs <- list(
       model_posteriors = nr_youth_pred_draws,
       width = .95,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   tar_target(
     name = figure_2,
@@ -17,34 +18,35 @@ create_outputs <- list(
       country_data = country_data,
       model = nr_youth_lic_players_mod,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   tar_target(
     name = figure_3,
     command = create_figure_3(
       country_data = country_data,
-      model_posteriors = nr_youth_ranking_pred_draws,
       model_moderated_posteriors = nr_youth_ranking_lic_players_draws,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   tar_target(
     name = figure_4,
     command = create_figure_4(
       country_data = country_data,
-      model = nr_youth_senior_country_mod,
       model_moderated = nr_youth_senior_lic_players_country_mod,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   tar_target(
     name = figure_5,
     command = create_figure_5(
       generation_data = generation_data,
-      model = nr_youth_senior_generation_mod,
       model_moderated = nr_youth_senior_lic_players_generation_mod,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   
   tar_target(
@@ -52,7 +54,8 @@ create_outputs <- list(
     command = create_figure_6(
       senior_players = senior_players,
       theme = plot_theme
-    )
+    ),
+    format = "qs"
   ),
   
 
@@ -60,7 +63,7 @@ create_outputs <- list(
 
   tar_map(
     values = list(device = c("pdf", "tiff")),
-    
+
     tar_target(
       name = figure_1_write,
       command = save_figure(
@@ -74,7 +77,7 @@ create_outputs <- list(
       ),
       format = "file"
     ),
-    
+
     tar_target(
       name = figure_2_write,
       command = save_figure(
@@ -88,7 +91,7 @@ create_outputs <- list(
       ),
       format = "file"
     ),
-    
+
     tar_target(
       name = figure_3_write,
       command = save_figure(
@@ -115,7 +118,7 @@ create_outputs <- list(
       ),
       format = "file"
     ),
-    
+
     tar_target(
       name = figure_5_write,
       command = save_figure(
@@ -129,8 +132,8 @@ create_outputs <- list(
       ),
       format = "file"
     ),
-    
-    
+
+
     tar_target(
       name = figure_6_write,
       command = save_figure(
@@ -196,5 +199,13 @@ create_outputs <- list(
       x = table_3,
       file = here::here("output", "table_3.csv")
     )
+  ),
+  
+
+  # Save results ------------------------------------------------------------
+
+  tar_render(
+    name = results,
+    path = "results.Rmd"
   )
 )

@@ -31,7 +31,7 @@ nr_youth_ranking_lic_players_draws <- function(country_data, model) {
   data_grid <- country_data %>% 
     group_by(gender) %>% 
     tidyr::expand(
-      nr_youth_m = seq(min(nr_youth_m), max(nr_youth_m), length.out = 30),
+      nr_youth_m = seq(min(nr_youth_m), max(nr_youth_m), length.out = 15),
       nr_youth_cv_std = 0,
       players_lic_log_std = 0,
     ) %>% 

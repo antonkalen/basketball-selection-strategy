@@ -1,0 +1,348 @@
+---
+title: "Results"
+author: "Anton Kalén"
+date: "12/29/2020"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup}
+
+# Setup
+knitr::opts_chunk$set(echo = FALSE)
+options(mc.cores = 4L)
+
+
+# Load packages
+library(targets)
+library(dplyr)
+library(tidyr)
+library(loo)
+library(tidybayes)
+library(bayesplot)
+
+# Load targets
+tar_load(senior_players)
+tar_load(player_data)
+tar_load(generation_data)
+tar_load(country_data)
+tar_load(nr_youth_mod)
+tar_load(nr_youth_lic_players_mod)
+tar_load(nr_youth_pred_draws)
+tar_load(nr_youth_lic_players_draws)
+tar_load(nr_youth_ranking_mod)
+tar_load(nr_youth_ranking_lic_players_mod)
+tar_load(nr_youth_senior_country_mod)
+tar_load(nr_youth_senior_lic_players_country_mod)
+tar_load(nr_youth_senior_generation_mod)
+tar_load(nr_youth_senior_lic_players_generation_mod)
+```
+
+## Model diagnostics
+
+```{r}
+models <- tibble(
+  model = c(
+    list(nr_youth_mod), 
+    list(nr_youth_lic_players_mod),
+    list(nr_youth_ranking_mod),
+    list(nr_youth_ranking_lic_players_mod),
+    list(nr_youth_senior_country_mod),
+    list(nr_youth_senior_lic_players_country_mod),
+    list(nr_youth_senior_generation_mod),
+    list(nr_youth_senior_lic_players_generation_mod)
+  )
+)
+
+models_divergent <- models %>% 
+  rowwise() %>% 
+  transmute(
+    divergent = sum(nuts_params(model, pars = "divergent__")$Value),
+    rhat = max(rhat(model))
+  )
+
+models_divergent
+
+```
+
+
+## Descriptives
+
+```{r}
+country_data %>% 
+  count(gender)
+```
+
+```{r}
+generation_data %>% 
+  count(gender)
+```
+```{r}
+player_data %>% 
+  count(gender)
+```
+
+
+```{r}
+player_data %>% 
+  filter(senior >= 0) %>% 
+  count(gender)
+```
+
+## Senior debut age
+```{r}
+senior_players %>% 
+  group_by(gender, played_youth) %>% 
+  summarise(
+    quant = c(.25,.5,.75),
+    value = quantile(senior_debut_age, quant, na.rm = TRUE)
+  )
+```
+
+## Selection strategy
+
+Avg nr players per generation in countries:
+
+```{r}
+# Avg nr youth
+country_data %>% 
+  group_by(gender) %>% 
+  summarise(
+    nr_youth_mean = mean(nr_youth_m), 
+    nr_youth_sd = sd(nr_youth_m),
+    cv_youth_mean = mean(nr_youth_cv),
+    cv_youth_sd = sd(nr_youth_cv)
+  )
+```
+
+Highest and lowest means:
+
+```{r}
+country_data %>% 
+  group_by(gender) %>% 
+  filter(nr_youth_m == max(nr_youth_m) | nr_youth_m == min(nr_youth_m)) %>% 
+  select(gender, country, nr_youth_m)
+```
+
+Diff in mean:
+
+```{r}
+nr_youth_pred_draws %>% 
+  group_by(gender, country, .draw) %>% 
+  summarise(.prediction = mean(.prediction)) %>% 
+  group_by(gender, .draw) %>% 
+  filter(.prediction == max(.prediction) | .prediction == min(.prediction)) %>% 
+  mutate(country = if_else(.prediction == max(.prediction), "max", "min")) %>% 
+  pivot_wider(id_cols = c(.draw), names_from = c(gender, country), values_from = .prediction) %>% 
+  mutate(men = Men_max - Men_min, women = Women_max - Women_min) %>% 
+  ungroup() %>% 
+  mean_hdi(men, women)
+```
+
+
+Highest and lowest cv:
+
+```{r}
+country_data %>% 
+  group_by(gender) %>% 
+  filter(nr_youth_cv == max(nr_youth_cv) | nr_youth_cv == min(nr_youth_cv)) %>% 
+  select(gender, country, nr_youth_cv)
+```
+
+
+Diff gender:
+
+```{r}
+country_pred <- nr_youth_pred_draws %>% 
+  group_by(.draw, gender, country) %>% 
+  summarise(country_mean = mean(.prediction), country_cv = 100 * sd(.prediction) / country_mean)
+
+
+country_pred %>% 
+  summarise(gender_mean = mean(country_mean), gender_cv = mean(country_cv)) %>% 
+  pivot_wider(names_from = gender, values_from = c(gender_mean, gender_cv)) %>% 
+  mutate(mean_diff = gender_mean_Men - gender_mean_Women, cv_diff = gender_cv_Men - gender_cv_Women) %>% 
+  ungroup() %>% 
+  mean_hdi(mean_diff, cv_diff)
+```
+
+Countries above or below average:
+
+```{r}
+country_prob_sup <- country_pred %>% 
+  mutate(gender_mean = mean(country_mean), gender_cv = mean(country_cv)) %>% 
+  group_by(gender, country) %>% 
+  summarise(
+    prob_sup_m = mean(country_mean > gender_mean), 
+    prob_sup_cv = mean(country_cv > gender_cv)
+  ) %>% 
+    mutate(
+    group_m = dplyr::case_when(
+        prob_sup_m > .95 ~ "Above",
+        prob_sup_m < (1 - .95) ~ "Below",
+        TRUE ~ "Average"
+      ),
+    group_cv = dplyr::case_when(
+        prob_sup_cv > .95 ~ "Above",
+        prob_sup_cv < (1 - .95) ~ "Below",
+        TRUE ~ "Average"
+      )
+  )
+
+country_prob_sup %>% 
+  count(group_m)
+```
+Countries above or below average:
+
+```{r}
+country_prob_sup %>% 
+  count(group_cv)
+```
+
+```{r}
+country_prob_sup %>% 
+  filter(group_cv %in% c("Above", "Below"))
+```
+
+### Licenced players moderator
+
+Descriptive stats nr licenced players:
+
+```{r}
+country_data %>% 
+  group_by(gender) %>% 
+  summarise(
+    quant = c(.25,.5,.75),
+    value = quantile(as.integer(players_lic), quant, na.rm = TRUE)
+  )
+```
+
+Min-max:
+
+```{r}
+country_data %>% 
+  drop_na(players_lic) %>% 
+  group_by(gender) %>% 
+  filter(players_lic == max(players_lic) | players_lic == min(players_lic)) %>% 
+  select(gender, country, players_lic)
+```
+
+
+Model comparison:
+
+```{r}
+nr_youth_loo <- loo(nr_youth_mod)
+nr_youth_lic_players_loo <- loo(nr_youth_lic_players_mod)
+print(loo_compare(nr_youth_loo, nr_youth_lic_players_loo), simplify = FALSE)
+```
+
+
+Diff gender:
+
+```{r}
+country_lic_players_pred <- nr_youth_lic_players_draws %>% 
+  group_by(.draw, gender, country) %>% 
+  summarise(country_mean = mean(.prediction), country_cv = 100 * sd(.prediction) / country_mean)
+
+
+country_lic_players_pred %>% 
+  summarise(gender_mean = mean(country_mean), gender_cv = mean(country_cv)) %>% 
+  pivot_wider(names_from = gender, values_from = c(gender_mean, gender_cv)) %>% 
+  mutate(mean_diff = gender_mean_Men - gender_mean_Women, cv_diff = gender_cv_Men - gender_cv_Women) %>% 
+  ungroup() %>% 
+  mean_hdi(mean_diff, cv_diff)
+```
+
+Countries above or below average:
+
+```{r}
+country_lic_players_prob_sup <- country_lic_players_pred %>% 
+  mutate(gender_mean = mean(country_mean), gender_cv = mean(country_cv)) %>% 
+  group_by(gender, country) %>% 
+  summarise(
+    prob_sup_m = mean(country_mean > gender_mean), 
+    prob_sup_cv = mean(country_cv > gender_cv)
+  ) %>% 
+    mutate(
+    group_m = dplyr::case_when(
+        prob_sup_m > .95 ~ "Above",
+        prob_sup_m < (1 - .95) ~ "Below",
+        TRUE ~ "Average"
+      ),
+    group_cv = dplyr::case_when(
+        prob_sup_cv > .95 ~ "Above",
+        prob_sup_cv < (1 - .95) ~ "Below",
+        TRUE ~ "Average"
+      )
+  )
+
+country_lic_players_prob_sup %>% 
+  count(group_m)
+```
+
+```{r}
+country_lic_players_prob_sup %>% 
+  filter(group_m != "Average") %>% 
+  arrange(gender, group_m, country)
+```
+
+Diff in mean:
+
+```{r}
+nr_youth_lic_players_draws %>% 
+  group_by(gender, country, .draw) %>% 
+  summarise(.prediction = mean(.prediction)) %>% 
+  group_by(gender, .draw) %>% 
+  filter(.prediction == max(.prediction) | .prediction == min(.prediction)) %>% 
+  mutate(country = if_else(.prediction == max(.prediction), "max", "min")) %>% 
+  pivot_wider(id_cols = c(.draw), names_from = c(gender, country), values_from = .prediction) %>% 
+  mutate(men = Men_max - Men_min, women = Women_max - Women_min) %>% 
+  ungroup() %>% 
+  mean_hdi(men, women)
+```
+
+Countries above or below average:
+
+```{r}
+country_lic_players_prob_sup %>% 
+  count(group_cv)
+```
+
+```{r}
+country_lic_players_prob_sup %>% 
+  filter(group_cv != "Average") %>% 
+  arrange(gender, group_cv, country)
+```
+
+
+
+```{r}
+country_prob_sup %>% 
+  filter(group_cv %in% c("Above", "Below"))
+```
+
+## Selection strategy and ranking
+
+Compare models:
+
+```{r}
+loo_compare(loo(nr_youth_ranking_mod), loo(nr_youth_ranking_lic_players_mod))
+```
+
+
+## Selection streategy and senior players
+
+### Country level
+
+Compare models:
+
+```{r}
+loo_compare(loo(nr_youth_senior_country_mod), loo(nr_youth_senior_lic_players_country_mod))
+```
+
+### Generation level
+```{r}
+loo_compare(loo(nr_youth_senior_generation_mod), loo(nr_youth_senior_lic_players_generation_mod))
+```

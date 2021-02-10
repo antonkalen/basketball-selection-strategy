@@ -1,4 +1,4 @@
-create_figure_4 <- function(country_data, model, model_moderated, theme) {
+create_figure_4 <- function(country_data, model_moderated, theme) {
   
   # Make data grid
   center <- attr(country_data$nr_youth_m_to_senior_std, "scaled:center")
@@ -8,7 +8,7 @@ create_figure_4 <- function(country_data, model, model_moderated, theme) {
   grid <- country_data %>% 
     dplyr::group_by(gender) %>% 
     tidyr::expand(
-      nr_youth_m_to_senior = seq(min(nr_youth_m_to_senior), max(nr_youth_m_to_senior), length.out = 30),
+      nr_youth_m_to_senior = seq(min(nr_youth_m_to_senior), max(nr_youth_m_to_senior), length.out = 15),
       nr_youth_cv_to_senior_std = 0,
       country = "New",
       players_lic_log_std = 0,
@@ -19,9 +19,6 @@ create_figure_4 <- function(country_data, model, model_moderated, theme) {
   
   # Gett fitted draws
   model_posteriors <- grid %>% 
-    tidybayes::add_fitted_draws(model = model, allow_new_levels = TRUE, re_formula = NA)
-  
-  model_moderated <- grid %>% 
     tidybayes::add_fitted_draws(model = model_moderated, allow_new_levels = TRUE, re_formula = NA)
   
   
@@ -35,31 +32,13 @@ create_figure_4 <- function(country_data, model, model_moderated, theme) {
       size = 1.5,
       shape = 16,
     ) +
-    ggdist::stat_lineribbon(
-      .width = c(.66, .95),
-      mapping = ggplot2::aes(fill = "Not controlled", color = "Not controlled"),
-      alpha = .3
-    ) +
-    ggdist::stat_lineribbon(
-      data = model_moderated,
-      .width = c(.66, .95),
-      mapping = ggplot2::aes(fill = "Controlled for number of licenced players", color = "Controlled for number of licenced players"),
-      alpha = .3
-    ) +
-    ggplot2::scale_fill_manual(
-      name = "",
-      values = c("Not controlled" = "#636363", "Controlled for number of licenced players" = "#2171b5")
-    ) +
-    ggplot2::scale_color_manual(
-      name = "",
-      values = c("Not controlled" = "#636363", "Controlled for number of licenced players" = "#08306b")
-    ) +
+    ggdist::stat_lineribbon(show.legend = FALSE, alpha = .3) +
+    ggplot2::scale_fill_manual(values = RColorBrewer::brewer.pal(5, "Blues")[3:5]) +
     ggplot2::facet_wrap(~gender) +
     ggplot2::scale_x_continuous(n.breaks = 4, name = "Number of youth players per generation") +
     ggplot2::scale_y_continuous(n.breaks = 4, name = "Number of senior players per generation") +
     theme + 
     ggplot2::theme(
-      # panel.grid.major = ggplot2::element_blank(),
       panel.spacing.x = ggplot2::unit(2, "lines"),
       panel.spacing.y = ggplot2::unit(1.5, "lines"),
       axis.title = ggplot2::element_text(size = 10),

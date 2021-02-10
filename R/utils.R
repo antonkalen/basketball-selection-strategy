@@ -25,11 +25,13 @@ save_figure <- function(figure, path, filename, device, scale, width, height) {
     ggplot2::ggsave(
       filename = path,
       plot = figure,
-      device = "tiff",
+      device = ragg::agg_tiff(),
       scale = scale,
+      dpi = 300,
       width = width,
       height = height,
-      units = "mm"
+      units = "mm",
+      compression = "lzw"
     )
   }
   

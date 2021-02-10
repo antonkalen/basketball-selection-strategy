@@ -8,7 +8,7 @@ create_figure_2 <- function(country_data, model, theme) {
     tidyr::drop_na(players_lic) %>% 
     dplyr::group_by(gender) %>%
     tidyr::expand(
-      players_lic = seq(min(players_lic), max(players_lic), length.out = 30),
+      players_lic = seq(min(players_lic), max(players_lic), length.out = 15),
       country = "New"
     ) %>%
     dplyr::transmute(
