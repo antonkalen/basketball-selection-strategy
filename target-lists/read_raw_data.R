@@ -27,13 +27,13 @@ read_raw_data <- list(
   tar_target(ranking, read_csv(ranking_files), pattern = map(ranking_files)),
 
   
-  # Read data on number of licenced players ---------------------------------
+  # Read data on number of licensed players ---------------------------------
 
   tar_file(licenced_players_file, here("data-raw", "nr-licenced-players.csv")),
   tar_target(licenced_players, read_csv(licenced_players_file)),
   
 
-  # Read data on countries participations in youth championships ------------
+  # Read data on countries participation in youth championships ------------
   
   tar_file(country_participations_file, here("data-raw", "country_participations.csv")),
   tar_target(country_participations, read_csv(country_participations_file))

@@ -158,7 +158,7 @@ fit_model <- list(
     )
   ),
   
-  # Nr youth and senior debut generation moderated by nr of licenced players
+  # Nr youth and senior debut generation moderated by nr of licensed players
   # and senior ranking
   tar_target(
     name = nr_youth_senior_lic_players_generation_mod,
