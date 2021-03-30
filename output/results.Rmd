@@ -11,6 +11,7 @@ output:
 ```{r setup}
 
 # Setup
+knitr::opts_knit$set(root.dir = here::here())
 knitr::opts_chunk$set(echo = FALSE)
 options(mc.cores = 4L)
 

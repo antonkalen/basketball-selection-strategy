@@ -206,6 +206,6 @@ create_outputs <- list(
 
   tar_render(
     name = results,
-    path = "results.Rmd"
+    path = here("output", "results.Rmd")
   )
 )
