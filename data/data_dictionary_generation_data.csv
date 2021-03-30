@@ -1,0 +1,15 @@
+﻿Variable,Variable Name,Measurment Unit,Allowed values,Description
+gender,Gender,Text,"Men, Women",The gender of the players in the generation
+country,Country,Text,Countries,The national team of the generation
+birth_year,Birth Year,yyyy,1988-1999,The year of birth of the players in the generation
+ranking_senior,Senior Country Rank,Numeric,Positive integers,The gender specific FIBA senior ranking spot of the country
+ranking_youth,Youth Country Rank,Numeric,Positive integers,The gender specific FIBA senior ranking spot of the country
+ranking_points_senior,Senior Country Ranking Points,Numeric,Positive floats,The gender specific FIBA senior ranking points of the country
+ranking_points_youth,Youth Country Ranking Points,Numeric,Positive floats,The gender specific FIBA youth ranking points of the country
+ranking_points_senior_std,Standardized Senior Country Ranking Points,Numeric,0-1,The min-max scaled gender specific FIBA senior ranking points of the country. 
+ranking_points_youth_std,Standardized Youth Country Ranking Points,Numeric,0-1,The min-max scaled gender specific FIBA youth ranking points of the country. 
+players_lic,Number of Licensed Players,Numeric,Positive integers,The reported number of gender specific licensed basketball players in the country.
+players_lic_log_std,Standardized Number of Licensed Players,Numeric,Floats,The standardized number of gender specific licensed basketball players in the country
+nr_youth,Number of Youth National Team Players,Numeric,Positive integers,The number of players in the generation that have played at least one youth championship
+nr_senior,Number of Senior National Team Players,Numeric,Positive integers,The number of players in the generation that have played at least one official senior national team game.
+nr_youth_std,Standardized Number of Youth Players,Numeric,Floats,The standardized number of players in the generation that have played at least one youth championship

@@ -1,0 +1,9 @@
+﻿Variable,Variable Name,Measurment Unit,Allowed values,Description
+player_id,Player ID,Numeric,Positive integer,Unique id of the player.
+gender,Gender,Text,"Men, Women",The gender of the players in the generation.
+country,Country,Text,Countries,The national team of the generation.
+senior_debut_year,Senior Debut Year,yyyy,Positive integer,The year of first official senior national team game.
+birth_year,Birth Year,yyyy,1988-1999,The year of birth of the players in the generation.
+birth_month,Birth Month,mm,1-12,The month of birth of the players in the generation.
+played_youth,Played Youth,Text,"Played Youth, Senior Only",If the player had played in at least one youth championship or only in senior national team.
+senior_debut_age,Senior Debut Age,Numeric,Positive integer,The age at first official senior national team game (Senior Debut Year - Birth Year).

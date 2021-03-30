@@ -1,0 +1,22 @@
+﻿Variable,Variable Name,Measurment Unit,Allowed values,Description
+gender,Gender,Text,"Men, Women",The gender of the players in the country
+country,Country,Text,Countries,The country
+ranking_senior,Senior Country Rank,Numeric,Positive integers,The gender specific FIBA senior ranking spot of the country
+ranking_youth,Youth Country Rank,Numeric,Positive integers,The gender specific FIBA senior ranking spot of the country
+ranking_points_senior,Senior Country Ranking Points,Numeric,Positive floats,The gender specific FIBA senior ranking points of the country
+ranking_points_youth,Youth Country Ranking Points,Numeric,Positive floats,The gender specific FIBA youth ranking points of the country
+ranking_points_senior_std,Standardized Senior Country Ranking Points,Numeric,0-1,The min-max scaled gender specific FIBA senior ranking points of the country. 
+ranking_points_youth_std,Standardized Youth Country Ranking Points,Numeric,0-1,The min-max scaled gender specific FIBA youth ranking points of the country. 
+players_lic,Number of Licensed Players,Numeric,Positive integers,The reported number of gender specific licensed basketball players in the country.
+players_lic_log_std,Standardized Number of Licensed Players,Numeric,Floats,The standardized number of gender specific licensed basketball players in the country.
+nr_generations,Number of Generations,Numeric,Positive integers,The number of gender specific generations included for the country.
+nr_youth_m,Average Number of Youth National Team Players,Numeric,Positive floats,The average number of players in each generation that have played at least one youth championship.
+nr_youth_cv,Coefficient of Variation of Number of Youth National Team Players,Numeric,Positive floats,The coefficient of variation between generations (expressed in percentage) of number of players in each generation that have played at least one youth championship.
+nr_youth_m_to_senior,Average Number of Youth Nation Team Players in 1988-1995 Generations,Numeric,Positive floats,The average number of players in each generation that have played at least one youth championship (in the generations that are included in the youth to senior analysis).
+nr_youth_cv_to_senior,Coefficient of Variation of Number of Youth Nation Team Players in 1988-1995 Generations,Numeric,Positive floats,The coefficient of variation between generations (expressed in percentage) of number of players in each generation that have played at least one youth championship  (in the generations that are included in the youth to senior analysis).
+nr_senior_m,Average Number of Senior National Team Players,Numeric,Positive floats,The average number of players in each generation that have played at least one official senior national team game (in the generations that are included in the youth to senior analysis).
+nr_youth_m_std,Standardized Average Number of Youth National Team Players,Numeric,Floats,The coefficient of variation between generations (expressed in percentage) of number of players in each generation that have played at least one youth championship  (in the generations that are included in the youth to senior analysis).
+nr_youth_cv_std,Standardized Coefficient of Variation of Number of Youth National Team Players,Numeric,Floats,The coefficient of variation between generations (expressed in percentage) of number of players in each generation that have played at least one youth championship.
+nr_youth_m_to_senior_std,Standardized Average Number of Youth Nation Team Players in 1988-1995 Generations,Numeric,Floats,The standardized average number of players in each generation that have played at least one youth championship (in the generations that are included in the youth to senior analysis).
+nr_youth_cv_to_senior_std,Standardized Coefficient of Variation of Number of Youth Nation Team Players in 1988-1995 Generations,Numeric,Floats,The standardized coefficient of variation between generations (expressed in percentage) of number of players in each generation that have played at least one youth championship  (in the generations that are included in the youth to senior analysis).
+nr_senior_m_std,Standardized Average Number of Senior National Team Players,Numeric,Floats,The standardized average number of players in each generation that have played at least one official senior national team game (in the generations that are included in the youth to senior analysis).
