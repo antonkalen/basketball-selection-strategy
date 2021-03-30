@@ -1,0 +1,123 @@
+---
+title: "Analysis pipeline"
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = here::here())
+knitr::opts_chunk$set(echo = FALSE)
+library(dplyr)
+library(targets)
+
+tar_load(nr_youth_mod)
+tar_load(nr_youth_lic_players_mod)
+tar_load(nr_youth_ranking_mod)
+tar_load(nr_youth_ranking_lic_players_mod)
+tar_load(nr_youth_senior_country_mod)
+tar_load(nr_youth_senior_lic_players_country_mod)
+tar_load(nr_youth_senior_generation_mod)
+tar_load(nr_youth_senior_lic_players_generation_mod)
+```
+
+This folder contains the steps of the analysis workflow that the [`targets`](https://docs.ropensci.org/targets/)-package uses to run the analysis pipeline.
+The specific actions (called `targets`) are divided into separate files corresponding to the different steps of the workflow.
+
+
+## Files
+
+The steps are divided into the following files, corresponding with the different steps of the workflow:
+
+```
+├── set_parameters    # Defines parameters of the analysis (e.g., nr iterations and CI-level).
+├── read_raw_data     # Loads the raw input data.
+├── data_cleaning     # Prepares the raw data inte final datasets for the analysis.
+├── fit_models        # Fits the models used for the analysis.
+└── create_outputs    # Create the final results, tables and figures.
+```
+
+## Models
+
+In total, eight models were fitted for the analyses:
+
+- `nr_youth_mod`
+- `nr_youth_lic_players_mod`
+- `nr_youth_ranking_mod`
+- `nr_youth_ranking_lic_players_mod`
+- `nr_youth_senior_country_mod`
+- `nr_youth_senior_lic_players_country_mod`
+- `nr_youth_senior_generation_mod`
+- `nr_youth_senior_lic_players_generation_mod`
+
+
+### `nr_youth_mod`
+
+Used to model the average amount of youth national team players per country and generation, as well within-country variation of number of youth players between the different generations (for each gender).
+
+```{r}
+summary(nr_youth_mod)
+```
+
+### `nr_youth_lic_players_mod`
+
+Used to model the moderation effect of number of licensed players on the average number of youth national team players and within-country variation of number of players between the different generations (for each gender).
+
+```{r}
+summary(nr_youth_lic_players_mod)
+```
+
+### `nr_youth_ranking_mod`
+
+Used to model the effect of countries' average number of youth national team players per generation and within-country variation of number of players between the different generations on the youth and senior ranking points of the country (for each gender).
+
+The model uses a multivariate formula to make subsequent analysis easier.
+No correlation between the residuals are modeled and it is therefore equal to using two univariate models.
+
+```{r}
+summary(nr_youth_ranking_mod)
+```
+
+### `nr_youth_ranking_lic_players_mod`
+
+Used to model the moderating effect of number of licensed players on the effect of countries' average number of youth national team players per generation and within-country variation of number of players between the different generations on the youth and senior ranking points of the country (for each gender).
+
+The model uses a multivariate formula to make subsequent analysis easier.
+No correlation between the residuals are modeled and it is therefore equal to using two univariate models.
+
+```{r}
+summary(nr_youth_ranking_lic_players_mod)
+```
+
+### `nr_youth_senior_country_mod`
+
+Used to model the effect of countries' average number of youth national team players per generation and within-country variation of number of players between the different generations on the average number of players that reach the senior national team in a generation (for each gender).
+
+```{r}
+summary(nr_youth_senior_country_mod)
+```
+
+### `nr_youth_senior_lic_players_country_mod`
+
+Used to model moderating effect of number of licensed players on the effect of countries' average number of youth national team players per generation and within-country variation of number of players between the different generations on the average number of players that reach the senior national team in a generation (for each gender).
+
+```{r}
+summary(nr_youth_senior_lic_players_country_mod)
+```
+
+### `nr_youth_senior_generation_mod`
+
+Used to model the within-country effect of number of youth national team players in a generation on the number of players tin the generation that reach the senior national team (for each gender).
+
+```{r}
+summary(nr_youth_senior_generation_mod)
+```
+
+### `nr_youth_senior_lic_players_generation_mod`
+
+Used to model moderating effect of number of licensed players on the effect of youth national team players in a generation on the number of players tin the generation that reach the senior national team (for each gender).
+
+```{r}
+summary(nr_youth_senior_lic_players_generation_mod)
+```

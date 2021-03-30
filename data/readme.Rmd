@@ -1,0 +1,71 @@
+---
+title: "Data description"
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+
+# Set knitr options
+knitr::opts_knit$set(root.dir = here::here())
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load packages
+library(readr)
+library(here)
+
+# Load data
+generation_data <- read_csv(here("data", "generation_data.csv"))
+country_data <- read_csv(here("data", "country_data.csv"))
+senior_championship_players_data <- read_csv(here("data", "senior_championship_players_data.csv"))
+data_dictionary_generation_data <- read_csv(here("data", "data_dictionary_generation_data.csv"))
+data_dictionary_country_data <- read_csv(here("data", "data_dictionary_country_data.csv"))
+data_dictionary_senior_championship_players_data <- read_csv(here("data", "data_dictionary_senior_championship_players_data.csv"))
+```
+
+The project includes three datasets:
+
+- `generation_data`
+- `country_data`
+- `senior_championship_players_data`
+
+## Generation Data
+
+The `generation_data` dataset contains `r nrow(generation_data)` observations (rows) and `r ncol(generation_data)` variable (columns).
+Each observation corresponds to one generation of one gender and country.
+
+The `generation_data` contains the following variable:
+
+```{r}
+knitr::kable(data_dictionary_generation_data)
+```
+
+## Country Data
+
+The `country_data` dataset contains `r nrow(country_data)` observations (rows) and `r ncol(country_data)` variable (columns).
+Each observation corresponds to one country and gender.
+
+The `country_data` contains the following variable:
+
+```{r}
+knitr::kable(data_dictionary_country_data)
+```
+
+## Senior Championship Player Data
+
+The `senior_championship_players_data` dataset contains `r nrow(senior_championship_players_data)` observations (rows) and `r ncol(senior_championship_players_data)` variable (columns).
+Each observation corresponds to one player that had played in at least one of the following tournament:
+
+- 2019 Men's FIBA World Cup
+- 2017 Men's FIBA Eurobasket
+- 2019 Women's FIBA Eurobasket
+- 2018 Women's FIBA World Cup
+- 2017 Women's FIBA Eurobasket
+
+The `senior_championship_players_data` contains the following variable:
+
+```{r}
+knitr::kable(data_dictionary_country_data)
+```

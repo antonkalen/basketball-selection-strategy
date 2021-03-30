@@ -207,5 +207,23 @@ create_outputs <- list(
   tar_render(
     name = results,
     path = here("output", "results.Rmd")
+  ),
+  
+  
+  # Create readmes ----------------------------------------------------------
+  
+  tar_render(
+    name = readme,
+    path = here("readme.Rmd")
+  ),
+  
+  tar_render(
+    name = readme_data,
+    path = here("data", "readme.Rmd")
+  ),
+  
+  tar_render(
+    name = readme_target_lists,
+    path = here("target-lists", "readme.Rmd")
   )
 )
