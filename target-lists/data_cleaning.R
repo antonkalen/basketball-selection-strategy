@@ -1,3 +1,5 @@
+# List of targets for cleaning all raw data and saving cleanded data.
+
 data_cleaning <- list(
 
 # Clean data of senior players in last championships ----------------------
@@ -5,6 +7,16 @@ data_cleaning <- list(
   tar_target(
     name = senior_players,
     command = clean_senior_players(senior_player_data_raw = raw_senior_players)
+  ),
+
+  # Save to data folder
+  tar_target(
+    name = senior_players_write,
+    command = save_csv(
+      senior_players, 
+      file = here("data", "senior_championship_players_data.csv")
+    ),
+    format = "file"
   ),
 
   
@@ -31,7 +43,7 @@ data_cleaning <- list(
     )
   ),
 
-# Clean licenced players data ---------------------------------------------
+# Clean licensed players data ---------------------------------------------
 
 tar_target(
   name = licenced_players_data,
@@ -51,12 +63,6 @@ tar_target(
       debut_age_cut = data_params$debut_age_cut
     )
   ),
-  # Save to data folder
-  tar_target(
-    name = player_data_write,
-    command = save_csv(player_data, file = here("data", "player_data.csv")),
-    format = "file"
-  ),
 
 
 # Create generation level data --------------------------------------------
@@ -65,6 +71,7 @@ tar_target(
     name = generation_data,
     command = make_generation_data(player_data = player_data)
   ),
+
   # Save to data folder
   tar_target(
     name = generation_data_write,
@@ -79,6 +86,7 @@ tar_target(
     name = country_data,
     command = make_country_data(generation_data = generation_data)
   ),
+
   # Save to data folder
   tar_target(
     name = country_data_write,
