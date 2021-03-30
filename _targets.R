@@ -8,7 +8,18 @@ library(future)
 
 # Set target options ------------------------------------------------------
 
-tar_option_set(packages = c("here", "readr", "fs", "dplyr", "tidyr", "brms", "Cairo", "tidybayes"))
+tar_option_set(
+  packages = c(
+    "here",
+    "readr",
+    "fs",
+    "dplyr",
+    "tidyr",
+    "brms",
+    "Cairo",
+    "tidybayes"
+  )
+)
 
 options(
   # Run all brms models with Cmdstanr as backend
@@ -20,7 +31,7 @@ options(
 dir_walk(here("R"), source)
 
 
-# Set up parallelisation --------------------------------------------------
+# Set up parallelization --------------------------------------------------
 
 plan(multisession)
 
@@ -52,5 +63,3 @@ tar_pipeline(
   fit_model,
   create_outputs
 )
-
-
