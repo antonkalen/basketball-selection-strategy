@@ -1,43 +1,36 @@
-create_figure_3 <- function(country_data,
-                            model_moderated_posteriors,
-                            theme) {
+create_figure_3 <- function(country_data, model, theme) {
+
+  # Make data grid
+  center <- attr(country_data$players_lic_log_std, "scaled:center")
+  scale <- attr(country_data$players_lic_log_std, "scaled:scale")
   
-  # Format posterior predictive draws
-  model_moderated_posteriors_clean <- model_moderated_posteriors %>% 
-    dplyr::mutate(
-      category = dplyr::case_when(
-        gender == "Men" & grepl("senior", .category) ~ "Men's Senior Ranking Points",
-        gender == "Men" & grepl("youth", .category) ~ "Men's Youth Ranking Points",
-        gender == "Women" & grepl("senior", .category) ~ "Women's Senior Ranking Points",
-        gender == "Women" & grepl("youth", .category) ~ "Women's Youth Ranking Points"
-      )
+  data_grid <- country_data %>%
+    tidyr::drop_na(players_lic) %>% 
+    dplyr::group_by(gender) %>%
+    tidyr::expand(
+      players_lic = seq(min(players_lic), max(players_lic), length.out = 15),
+      country = "New"
+    ) %>%
+    dplyr::transmute(
+      gender,
+      players_lic_log_std = (log(players_lic) - center) / scale,
+      players_lic,
+      country
     )
   
-  # Format observed data
-  country_data_clean <- country_data %>% 
-    tidyr::pivot_longer(
-      cols = c(ranking_points_senior_std, ranking_points_youth_std),
-      names_to = ".category",
-      values_to = ".value"
-    ) %>% 
-    dplyr::mutate(
-      category = dplyr::case_when(
-        gender == "Men" & grepl("senior", .category) ~ "Men's Senior Ranking Points",
-        gender == "Men" & grepl("youth", .category) ~ "Men's Youth Ranking Points",
-        gender == "Women" & grepl("senior", .category) ~ "Women's Senior Ranking Points",
-        gender == "Women" & grepl("youth", .category) ~ "Women's Youth Ranking Points"
-      )
-    )
   
+  # Add draws
+  draws <- data_grid %>% 
+    tidybayes::add_fitted_draws(model = model, allow_new_levels = TRUE, re_formula = NA)
+
   # Make plot
-  model_moderated_posteriors_clean %>% 
-    ggplot2::ggplot(ggplot2::aes(x = nr_youth_m, y = .value)) +
-    ggplot2::geom_point(data = country_data_clean, alpha = 1, size = 1.5, shape = 16, color = "Gray30") +
+  draws %>% 
+    ggplot2::ggplot(ggplot2::aes(x = players_lic, y = .value)) +
+    ggplot2::geom_point(data = country_data, mapping = ggplot2::aes(y = nr_youth_m), alpha = 1, size = 1.5, shape = 16) +
     ggdist::stat_lineribbon(show.legend = FALSE, alpha = .3) +
+    ggplot2::facet_wrap(~ gender, dir = "h") +
+    ggplot2::scale_x_log10(label = scales::label_comma(), name = "Number of licensed players") +
+    ggplot2::ylab("Number of youth players per generation") +
     ggplot2::scale_fill_manual(values = RColorBrewer::brewer.pal(5, "Blues")[3:5]) +
-    ggplot2::facet_wrap(~ category, scales = "free", dir = "v") +
-    ggplot2::scale_y_continuous(limits = c(0,.85), n.breaks = 5, name = "Standardized ranking points") +
-    ggplot2::scale_x_continuous(limits = c(8,20), n.breaks = 4, name = "Number of youth players per generation") +
     theme
-  
 }
