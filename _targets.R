@@ -17,7 +17,8 @@ tar_option_set(
     "tidyr",
     "brms",
     "Cairo",
-    "tidybayes"
+    "tidybayes",
+    "Hmisc"
   )
 )
 
