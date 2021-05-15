@@ -25,8 +25,7 @@ create_figure_6 <- function(senior_players, theme) {
     ggplot2::scale_color_brewer(palette = "Dark2") +
     ggplot2::scale_fill_brewer(palette = "Dark2") +
     ggplot2::labs(title = NULL, x = "Number of youth players per generation", y = NULL) +
-    theme +
-    ggplot2::theme(panel.grid.major.x = ggplot2::element_blank()) 
+    theme
 }
 
 

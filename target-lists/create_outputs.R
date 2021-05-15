@@ -73,7 +73,7 @@ create_outputs <- list(
         device = device,
         scale = 1,
         width = 180,
-        height = 140
+        height = 160
       ),
       format = "file"
     ),

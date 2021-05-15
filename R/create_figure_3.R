@@ -38,16 +38,6 @@ create_figure_3 <- function(country_data,
     ggplot2::facet_wrap(~ category, scales = "free", dir = "v") +
     ggplot2::scale_y_continuous(limits = c(0,.85), n.breaks = 5, name = "Standardized ranking points") +
     ggplot2::scale_x_continuous(limits = c(8,20), n.breaks = 4, name = "Number of youth players per generation") +
-    theme + 
-    ggplot2::theme(
-      # panel.grid.major = ggplot2::element_blank(),
-      panel.spacing.x = ggplot2::unit(2, "lines"),
-      panel.spacing.y = ggplot2::unit(1.5, "lines"),
-      axis.title = ggplot2::element_text(size = 10),
-      axis.ticks.length.y = ggplot2::unit(0,"pt"),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.ticks.length.x = ggplot2::unit(0,"pt"),
-      axis.ticks.x = ggplot2::element_blank()
-    )
+    theme
   
 }

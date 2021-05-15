@@ -44,13 +44,17 @@ set_parameters <- list(
   tar_target(
     name = plot_theme,
     command = ggplot2::theme_minimal(base_size = 12) + 
-        ggplot2::theme(
-          panel.grid.minor = ggplot2::element_blank(),
-          legend.position = 'bottom',
-          legend.title = ggplot2::element_blank(),
-          plot.margin = ggplot2::margin(0,0,0,0,"pt"),
-          axis.ticks.length.x = ggplot2::unit(2,"pt"),
-          axis.ticks.x = ggplot2::element_line(colour = "gray30")
-        )
+      ggplot2::theme(
+        axis.title = ggplot2::element_text(size = 10),
+        panel.border = ggplot2::element_rect(fill = NA),
+        panel.grid = ggplot2::element_blank(),
+        legend.position = 'bottom',
+        legend.title = ggplot2::element_blank(),
+        plot.margin = ggplot2::margin(0,0,0,0,"pt"),
+        axis.ticks.length = ggplot2::unit(2,"pt"),
+        axis.ticks = ggplot2::element_line(colour = "gray30"),
+        panel.spacing.x = ggplot2::unit(2, "lines"),
+        panel.spacing.y = ggplot2::unit(1.5, "lines")
+      )
   )
 )

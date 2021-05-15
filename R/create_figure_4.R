@@ -37,16 +37,5 @@ create_figure_4 <- function(country_data, model_moderated, theme) {
     ggplot2::facet_wrap(~gender) +
     ggplot2::scale_x_continuous(n.breaks = 4, name = "Number of youth players per generation") +
     ggplot2::scale_y_continuous(n.breaks = 4, name = "Number of senior players per generation") +
-    theme + 
-    ggplot2::theme(
-      panel.spacing.x = ggplot2::unit(2, "lines"),
-      panel.spacing.y = ggplot2::unit(1.5, "lines"),
-      axis.title = ggplot2::element_text(size = 10),
-      axis.ticks.length.y = ggplot2::unit(0,"pt"),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.ticks.length.x = ggplot2::unit(0,"pt"),
-      axis.ticks.x = ggplot2::element_blank()
-    )
-  
-  
+    theme
 }

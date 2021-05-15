@@ -41,23 +41,14 @@ create_figure_5 <- function(generation_data, model, model_moderated, theme) {
     ggplot2::geom_line(
       data = model_country_posteriors,
       mapping = ggplot2::aes(group = country),
-      size = .2
+      size = .2,
+      alpha = .75
     ) +
     ggdist::stat_lineribbon(show.legend = FALSE, alpha = .3) +
     ggplot2::scale_fill_manual(values = RColorBrewer::brewer.pal(5, "Blues")[3:5]) +
     ggplot2::facet_wrap(~gender) +
     ggplot2::scale_x_continuous(n.breaks = 4, name = "Number of youth players") +
     ggplot2::scale_y_continuous(n.breaks = 4, name = "Number of senior players") +
-    theme + 
-    ggplot2::theme(
-      panel.spacing.x = ggplot2::unit(2, "lines"),
-      panel.spacing.y = ggplot2::unit(1.5, "lines"),
-      axis.title = ggplot2::element_text(size = 10),
-      axis.ticks.length.y = ggplot2::unit(0,"pt"),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.ticks.length.x = ggplot2::unit(0,"pt"),
-      axis.ticks.x = ggplot2::element_blank()
-    )
-  
+    theme
   
 }
