@@ -1,7 +1,7 @@
 Talent selection strategies and relationship with success in European
 basketball national team programs
 ================
-2021-03-30
+2021-05-15
 
 This is repo for the article “Talent selection strategies and
 relationship with success in European basketball national team
